@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class MovedPlayer : MonoBehaviour
 {
+    public int maxHealth = 100;
+    public int currentHealth;
+    public HealthPlayer healthPlayer;
 
     public Rigidbody2D rb;
     public float speed = 10f;
@@ -21,6 +24,8 @@ public class MovedPlayer : MonoBehaviour
     private float GroundCheckRadius;
     void Start()
     {
+        currentHealth = maxHealth;
+        healthPlayer.SetMaxHealth(maxHealth);
         rb = GetComponent<Rigidbody2D>();
         GroundCheckRadius = GroundCheck.GetComponent<CircleCollider2D>().radius;
     }
@@ -67,7 +72,11 @@ public class MovedPlayer : MonoBehaviour
     void CheckingGround()
     {
         onGround = Physics2D.OverlapCircle(GroundCheck.position, GroundCheckRadius, Ground);
-        
+    }
+    void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+        healthPlayer.SetHealth(currentHealth);
     }
 }
 
